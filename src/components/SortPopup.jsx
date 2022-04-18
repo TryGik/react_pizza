@@ -33,7 +33,7 @@ export default function SortPopup({ items }) {
     return (
         <div className="sort" ref={sortRef}>
             <div className="sort__label">
-                <svg
+                <svg className={visiblePopup ? 'rotated' : ''}
                     width="10"
                     height="6"
                     viewBox="0 0 10 6"
