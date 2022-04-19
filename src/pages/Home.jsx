@@ -11,7 +11,7 @@ export default function Home({ items }) {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        {items.map(item => <PizzaBlock items={item} key={item.id} />)}
+        {items.map(item => <PizzaBlock {...item} key={item.id} />)}
       </div>
     </div>
   )

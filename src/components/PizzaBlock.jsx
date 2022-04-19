@@ -1,11 +1,26 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-export default function PizzaBlock({ items }) {
+PizzaBlock.propTypes = {
+    name: PropTypes.string.isRequired,
+    imageUrl: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    types: PropTypes.arrayOf(PropTypes.number).isRequired,
+    sizes: PropTypes.arrayOf(PropTypes.number).isRequired,
+};
+
+PizzaBlock.defaultProps = {
+    types: [],
+    sizes: [],
+};
+
+export default function PizzaBlock({ name, imageUrl, price, types, sizes }) {
     const typesName = ['тонкое', 'традиционное'];
     const sizesValue = [26, 30, 40];
-    const [activeType, setActiveType] = React.useState(items.types[0]);
-    const [activeSize, setActiveSize] = React.useState(items.sizes[0]);
+
+    const [activeType, setActiveType] = React.useState(types[0]);
+    const [activeSize, setActiveSize] = React.useState(sizes[0]);
 
     const onSelectType = (index) => {
         setActiveType(index);
@@ -21,10 +36,10 @@ export default function PizzaBlock({ items }) {
         <div className="pizza-block">
             <img
                 className="pizza-block__image"
-                src={items.imageUrl}
+                src={imageUrl}
                 alt="Pizza"
             />
-            <h4 className="pizza-block__title">{items.name}</h4>
+            <h4 className="pizza-block__title">{name}</h4>
             <div className="pizza-block__selector">
                 <ul>
                     {typesName.map((type, index) =>
@@ -33,7 +48,7 @@ export default function PizzaBlock({ items }) {
                             onClick={() => onSelectType(index)}
                             className={classNames({
                                 'active': activeType === index,
-                                'disabled': !items.types.includes(index),
+                                'disabled': !types.includes(index),
                             })}
 
                         >{type}</li>
@@ -46,14 +61,14 @@ export default function PizzaBlock({ items }) {
                             onClick={() => onSelectSize(size)}
                             className={classNames({
                                 'active': activeSize === size,
-                                'disabled': !items.sizes.includes(size),
+                                'disabled': !sizes.includes(size),
                             })}
                         >{size} см</li>
                     )}
                 </ul>
             </div>
             <div className="pizza-block__bottom">
-                <div className="pizza-block__price">от {items.price} ₽</div>
+                <div className="pizza-block__price">от {price} ₽</div>
                 <div className="button button--outline button--add">
                     <svg
                         width="12"
@@ -73,3 +88,4 @@ export default function PizzaBlock({ items }) {
         </div>
     );
 }
+
