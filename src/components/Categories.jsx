@@ -1,12 +1,17 @@
 import React from 'react'
 
 /*Проверка на null и underfined, добавления класса актив */
-export default function Categories({ items }) {
+/*React.memo предотврящает лишний рендер*/
+const Categories = React.memo(function Categories({ items, onClickItem }) {
   const [activeItem, setActiveItem] = React.useState(null);
 
   const onSelectItem = index => {
     setActiveItem(index);
-  }
+    onClickItem(index);
+  };
+
+  console.log('RENDERED CATEGORY')
+
   return (
     <div className="categories">
       <ul>
@@ -18,8 +23,9 @@ export default function Categories({ items }) {
       </ul>
     </div>
   )
-}
+})
 
+export default Categories;
 // class Categories extends React.Component {
 //   state = {
 //     activeItem: null
