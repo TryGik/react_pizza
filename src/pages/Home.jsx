@@ -13,8 +13,8 @@ const sortItems = [
 
 export default function Home() {
   const dispatch = useDispatch();
-  const items = useSelector(({ pizzas }) => pizzas.items);
-
+  const items = useSelector(({ pizzas }) => pizzas.items.pizzas);
+  console.log(items)
   //для избежания лишнего ререндера Category(less7~1:19:00)
   const onSelectCategory = React.useCallback(index => {
     dispatch(setCategory(index))

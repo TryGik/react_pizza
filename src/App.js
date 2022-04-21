@@ -29,7 +29,8 @@ function App() {
   };*/
 
   React.useEffect(() => {
-    axios.get('http://localhost:3001/pizzas')
+    //'http://localhost:3001/pizzas'
+    axios.get('http://localhost:3000/db.json')
       .then(({ data }) => {
         // console.log("Был отрендер") в Арр рендерится только 1 раз, а в Хоум каждый раз при переходе /home
         dispatch(setPizzas(data))
