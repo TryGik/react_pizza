@@ -1,55 +1,29 @@
 import React from 'react'
-
+import PropTypes from 'prop-types';
 /*Проверка на null и underfined, добавления класса актив */
 /*React.memo предотврящает лишний рендер*/
-const Categories = React.memo(function Categories({ items, onClickItem }) {
-  const [activeItem, setActiveItem] = React.useState(null);
-
-  const onSelectItem = index => {
-    setActiveItem(index);
-    onClickItem(index);
-  };
-
-  console.log('RENDERED CATEGORY')
+const Categories = React.memo(function Categories({ activeCategory, items, onClickCategory }) {
 
   return (
     <div className="categories">
       <ul>
-        <li className={activeItem === null ? 'active' : ''} onClick={() => onSelectItem(null)}>Все</li>
+        <li className={activeCategory === null ? 'active' : ''} onClick={() => onClickCategory(null)}>Все</li>
         {items && items.map((item, index) => <li
-          className={activeItem === index ? 'active' : ''}
-          onClick={() => onSelectItem(index)}
+          className={activeCategory === index ? 'active' : ''}
+          onClick={() => onClickCategory(index)}
           key={index + item}>{item}</li>)} {/*проверка items && на undefined*/}
       </ul>
     </div>
   )
 })
 
+Categories.propTypes = {
+  items: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onClickCategory: PropTypes.func.isRequired
+};
+
+Categories.defaultProps = {
+  items: [],
+};
+
 export default Categories;
-// class Categories extends React.Component {
-//   state = {
-//     activeItem: null
-//   };
-
-//   onSelectItem = index => {
-//     this.setState({ activeItem: index });
-//   }
-
-//   render() {
-//     const { items, onClick } = this.props;
-//     return (
-//       <div className="categories">
-//         <ul>
-//           <li>Все</li>
-//           {items.map((item, index) =>
-//             <li
-//               className={this.state.activeItem === index ? 'active' : ''}
-//               onClick={() => this.onSelectItem(index)}
-//               key={index + item}>{item}</li>)}
-//         </ul>
-//       </div>
-//     );
-//   }
-// }
-
-// export default Categories
