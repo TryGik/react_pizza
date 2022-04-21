@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Categories, SortPopup, PizzaBlock } from '../components';
+import { Categories, SortPopup, PizzaBlock, LoadingBlock } from '../components';
 import { setCategory } from '../redux/actions/filters';
 
 import { fetchPizzas } from '../redux/actions/pizzas';
@@ -16,6 +16,7 @@ const sortItems = [
 export default function Home() {
   const dispatch = useDispatch();
   const items = useSelector(({ pizzas }) => pizzas.items);
+  const isLoaded = useSelector(({ pizzas }) => pizzas.isLoaded);
 
   React.useEffect(() => {
     //так как присутствует роутинг, каждый раз при переходе из карзины к Хоуму заново идет запрос на сервер - что плохо
@@ -37,7 +38,7 @@ export default function Home() {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        {items && items.map(item => <PizzaBlock {...item} key={item.id} />)}
+        {isLoaded ? items.map(item => <PizzaBlock {...item} key={item.id} />) : Array(12).fill(<LoadingBlock />)}
       </div>
     </div>
   )
