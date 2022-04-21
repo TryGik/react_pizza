@@ -3,25 +3,29 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Categories, SortPopup, PizzaBlock } from '../components';
 import { setCategory } from '../redux/actions/filters';
 
+import { fetchPizzas } from '../redux/actions/pizzas';
+
 const categoryNames = ['Мясные', 'Вегетарианская', ' Гриль', 'Острые', 'Закрытые'];
 const sortItems = [
   { name: 'популярности', type: 'popular' },
   { name: 'цене', type: 'price' },
   { name: 'алфавиту', type: 'alphabet' }
 ];
-// let oldFunc = null;
+
 
 export default function Home() {
   const dispatch = useDispatch();
-  const items = useSelector(({ pizzas }) => pizzas.items.pizzas);
-  console.log(items)
+  const items = useSelector(({ pizzas }) => pizzas.items);
+
+  React.useEffect(() => {
+    //так как присутствует роутинг, каждый раз при переходе из карзины к Хоуму заново идет запрос на сервер - что плохо
+    dispatch(fetchPizzas());
+  }, []);
+
   //для избежания лишнего ререндера Category(less7~1:19:00)
   const onSelectCategory = React.useCallback(index => {
     dispatch(setCategory(index))
   }, [])
-
-  // console.log(oldFunc === onSelectCategory);
-  // oldFunc = onSelectCategory;
 
   return (
     <div className="container">
