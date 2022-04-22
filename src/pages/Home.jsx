@@ -7,9 +7,9 @@ import { fetchPizzas } from '../redux/actions/pizzas';
 
 const categoryNames = ['Мясные', 'Вегетарианская', ' Гриль', 'Острые', 'Закрытые'];
 const sortItems = [
-  { name: 'популярности', type: 'popular' },
-  { name: 'цене', type: 'price' },
-  { name: 'алфавиту', type: 'alphabet' }
+  { name: 'популярности', type: 'rating', order: 'desc' },
+  { name: 'цене', type: 'price', order: 'desc' },
+  { name: 'алфавиту', type: 'name', order: "asc" }
 ];
 
 
@@ -23,13 +23,13 @@ export default function Home() {
 
   React.useEffect(() => {
     //так как присутствует роутинг, каждый раз при переходе из карзины к Хоуму заново идет запрос на сервер - что плохо
-    dispatch(fetchPizzas());
-  }, [category, sortBy]);
+    dispatch(fetchPizzas(sortBy, category));
+  }, [category, dispatch, sortBy]);
 
   //для избежания лишнего ререндера Category(less7~1:19:00)
   const onSelectCategory = React.useCallback(index => {
     dispatch(setCategory(index))
-  }, [])
+  }, [dispatch])
 
   const onSelectSortType = React.useCallback((type) => {
     dispatch(setSortBy(type))
@@ -44,7 +44,7 @@ export default function Home() {
           items={categoryNames} />
         <SortPopup
           onClickSortType={onSelectSortType}
-          activeSortType={sortBy}
+          activeSortType={sortBy.type}
           items={sortItems} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
