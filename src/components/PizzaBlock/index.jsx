@@ -2,12 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import Button from '../Button';
+
 PizzaBlock.propTypes = {
     name: PropTypes.string.isRequired,
     imageUrl: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     types: PropTypes.arrayOf(PropTypes.number).isRequired,
     sizes: PropTypes.arrayOf(PropTypes.number).isRequired,
+    onAddPizza: PropTypes.func,
 };
 
 PizzaBlock.defaultProps = {
@@ -15,20 +18,32 @@ PizzaBlock.defaultProps = {
     sizes: [],
 };
 
-export default function PizzaBlock({ name, imageUrl, price, types, sizes }) {
+export default function PizzaBlock({ id, name, imageUrl, price, types, sizes, onClickAddPizza }) {
     const typesName = ['тонкое', 'традиционное'];
     const sizesValue = [26, 30, 40];
 
     const [activeType, setActiveType] = React.useState(types[0]);
-    const [activeSize, setActiveSize] = React.useState(sizes[0]);
+    const [activeSize, setActiveSize] = React.useState(0);
 
     const onSelectType = (index) => {
         setActiveType(index);
     }
 
-    const onSelectSize = (size) => {
-        setActiveSize(size);
+    const onSelectSize = (index) => {
+        setActiveSize(index);
     }
+
+    const onAddPizza = () => {
+        const obj = {
+            id,
+            name,
+            imageUrl,
+            price,
+            size: sizesValue[activeSize],
+            type: typesName[activeType],
+        }
+        onClickAddPizza(obj);
+    };
 
     return (
         <div className="pizza-block">
@@ -56,9 +71,9 @@ export default function PizzaBlock({ name, imageUrl, price, types, sizes }) {
                     {sizesValue.map((size, index) =>
                         <li
                             key={index + size}
-                            onClick={() => onSelectSize(size)}
+                            onClick={() => onSelectSize(index)}
                             className={classNames({
-                                'active': activeSize === size,
+                                'active': activeSize === index,
                                 'disabled': !sizes.includes(size),
                             })}
                         >{size} см</li>
@@ -67,7 +82,7 @@ export default function PizzaBlock({ name, imageUrl, price, types, sizes }) {
             </div>
             <div className="pizza-block__bottom">
                 <div className="pizza-block__price">от {price} ₽</div>
-                <div className="button button--outline button--add">
+                <Button className="button--add button--outline" onClick={onAddPizza}>
                     <svg
                         width="12"
                         height="12"
@@ -81,7 +96,7 @@ export default function PizzaBlock({ name, imageUrl, price, types, sizes }) {
                     </svg>
                     <span>Добавить</span>
                     <i>2</i>
-                </div>
+                </Button>
             </div>
         </div>
     );

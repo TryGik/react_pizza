@@ -13,9 +13,11 @@ const SortPopup = React.memo(function SortPopup({ items, activeSortType, onClick
         setVisiblePopup(!visiblePopup);
     };
 
-    const handleOutsideClick = (e) => {
+    const handleOutsideClick = (event) => {
+        //для совместимости с мозиллой
+        const path = event.path || (event.composedPath && event.composedPath());
         // console.log(e.path);
-        if (!e.path.includes(sortRef.current)) {
+        if (!path.includes(sortRef.current)) {
             // console.log('hello')
             setVisiblePopup(false);
         }

@@ -6,10 +6,10 @@ Button.propTypes = {
   className: PropTypes.string.isRequired,
 }
 
-export default function Button({ className, children }) {
+export default function Button({ className, children, onClick }) {
 
   return (
-    <button className={classNames('button', className, {})}>{children}</button>
+    <button onClick={onClick} className={classNames('button', className, {})}>{children}</button>
   );
 }
 

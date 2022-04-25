@@ -24,12 +24,12 @@ export default function Home() {
   React.useEffect(() => {
     //так как присутствует роутинг, каждый раз при переходе из карзины к Хоуму заново идет запрос на сервер - что плохо
     dispatch(fetchPizzas(sortBy, category));
-  }, [category, dispatch, sortBy]);
+  }, [category, sortBy]);
 
   //для избежания лишнего ререндера Category(less7~1:19:00)
   const onSelectCategory = React.useCallback(index => {
     dispatch(setCategory(index))
-  }, [dispatch])
+  }, [])
 
   const onSelectSortType = React.useCallback((type) => {
     dispatch(setSortBy(type))
@@ -49,7 +49,9 @@ export default function Home() {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        {isLoaded ? items.map(item => <PizzaBlock {...item} key={item.id} />) : Array(12).fill(0).map((_, index) => <LoadingBlock key={index} />)}
+        {isLoaded ?
+          items.map(item => <PizzaBlock onClickAddPizza={(obj) => console.log(obj)} {...item} key={item.id} isLoaded={true} />)
+          : Array(12).fill(0).map((_, index) => <LoadingBlock key={index} />)}
       </div>
     </div>
   )
