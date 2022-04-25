@@ -11,14 +11,16 @@ PizzaBlock.propTypes = {
     types: PropTypes.arrayOf(PropTypes.number).isRequired,
     sizes: PropTypes.arrayOf(PropTypes.number).isRequired,
     onAddPizza: PropTypes.func,
+    addedCount: PropTypes.number,
 };
 
 PizzaBlock.defaultProps = {
     types: [],
     sizes: [],
+    price: 0,
 };
 
-export default function PizzaBlock({ id, name, imageUrl, price, types, sizes, onClickAddPizza }) {
+export default function PizzaBlock({ id, name, imageUrl, price, types, sizes, onClickAddPizza, addedCount }) {
     const typesName = ['тонкое', 'традиционное'];
     const sizesValue = [26, 30, 40];
 
@@ -41,7 +43,7 @@ export default function PizzaBlock({ id, name, imageUrl, price, types, sizes, on
             price,
             size: sizesValue[activeSize],
             type: typesName[activeType],
-        }
+        };
         onClickAddPizza(obj);
     };
 
@@ -95,7 +97,7 @@ export default function PizzaBlock({ id, name, imageUrl, price, types, sizes, on
                         />
                     </svg>
                     <span>Добавить</span>
-                    <i>2</i>
+                    {addedCount && <i>{addedCount}</i>}
                 </Button>
             </div>
         </div>
