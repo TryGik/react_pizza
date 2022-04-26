@@ -62,7 +62,7 @@ export default function Home() {
       <div className="content__items">
         {isLoaded ?
           items.map(item => <PizzaBlock
-            addedCount={cartItems[item.id] && cartItems[item.id].length}
+            addedCount={cartItems[item.id] && cartItems[item.id].items.length}
             onClickAddPizza={handleAddPizzaToCart}
             {...item}
             key={item.id} />)
